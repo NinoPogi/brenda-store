@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "serve": "npx nodemon server.js",
+    "start": "npm run dev & npm run serve",
     "build": "vite build",
     "preview": "vite preview"
   },
