@@ -97,10 +97,10 @@ document.addEventListener("DOMContentLoaded", function () {
           productCard.innerHTML = productCardContent;
           productList.appendChild(productCard);
         });
-        addAddToCart(products);
+        addToCart(products);
       }
 
-      function addAddToCart(products) {
+      function addToCart(products) {
         const addToCartButtons = document.getElementsByClassName("product-btn");
         const storedCart = sessionStorage.getItem("cart");
         const cart = storedCart ? JSON.parse(storedCart) : [];
@@ -114,10 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const existingItem = cart.find((item) => item.id === product.id);
 
             if (existingItem) {
-              // Product already exists in the cart, update its quantity
               existingItem.quantity += 1;
             } else {
-              // Product doesn't exist in the cart, add it as a new entry
               cart.push({
                 id: product.id,
                 name: product.name,
@@ -127,12 +125,10 @@ document.addEventListener("DOMContentLoaded", function () {
               });
             }
 
-            // Store the updated cart in session storage
             sessionStorage.setItem("cart", JSON.stringify(cart));
             renderCart(cart);
           });
 
-          // If the cart is already populated, disable the button
           if (isCartPopulated) {
             button.disabled = true;
           }
@@ -147,79 +143,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
       function renderCart(cart) {
         const cartContent = document.querySelector(".cart-content");
+        const cartLengthText = document.getElementById("cart-length");
+        const totalElement = document.querySelector(".total-price");
+        const emptyCartText = document.createElement("div");
+        emptyCartText.classList.add("empty-cart-text");
+        emptyCartText.textContent = "Your cart is empty.";
+
         cartContent.innerHTML = "";
 
-        cart.map((item, index) => {
-          const cartBox = document.createElement("div");
-          cartBox.classList.add("cart-box");
+        if (cart.length === 0) {
+          cartContent.appendChild(emptyCartText);
+          cartLengthText.textContent = "(0)";
+          totalElement.textContent = "₱0";
+        } else {
+          cart.map((item, index) => {
+            const cartBox = document.createElement("div");
+            cartBox.classList.add("cart-box");
 
-          const image = document.createElement("img");
-          image.src = item.image;
-          image.alt = "";
-          image.classList.add("cart-img");
-          cartBox.appendChild(image);
+            const image = document.createElement("img");
+            image.src = item.image;
+            image.alt = "";
+            image.classList.add("cart-img");
+            cartBox.appendChild(image);
 
-          const detailBox = document.createElement("div");
-          detailBox.classList.add("detail-box");
+            const detailBox = document.createElement("div");
+            detailBox.classList.add("detail-box");
 
-          const productTitle = document.createElement("div");
-          productTitle.classList.add("cart-product-title");
-          productTitle.textContent = item.name;
-          detailBox.appendChild(productTitle);
+            const productTitle = document.createElement("div");
+            productTitle.classList.add("cart-product-title");
+            productTitle.textContent = item.name;
+            detailBox.appendChild(productTitle);
 
-          const productPrice = document.createElement("div");
-          productPrice.classList.add("cart-product-price");
-          productPrice.textContent = "₱" + item.price;
-          detailBox.appendChild(productPrice);
+            const productPrice = document.createElement("div");
+            productPrice.classList.add("cart-product-price");
+            productPrice.textContent = "₱" + item.price;
+            detailBox.appendChild(productPrice);
 
-          const quantityInput = document.createElement("input");
-          quantityInput.type = "number";
-          quantityInput.min = "1";
-          quantityInput.value = item.quantity;
-          quantityInput.classList.add("cart-quantity");
-          detailBox.appendChild(quantityInput);
+            const quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.min = "1";
+            quantityInput.value = item.quantity;
+            quantityInput.classList.add("cart-quantity");
+            detailBox.appendChild(quantityInput);
 
-          cartBox.appendChild(detailBox);
+            cartBox.appendChild(detailBox);
 
-          const trashButton = document.createElement("button");
-          trashButton.classList.add("cart-trash");
-          trashButton.dataset.index = index;
+            const trashButton = document.createElement("button");
+            trashButton.classList.add("cart-trash");
+            trashButton.dataset.index = index;
 
-          const trashIcon = document.createElement("ion-icon");
-          trashIcon.name = "trash";
+            const trashIcon = document.createElement("ion-icon");
+            trashIcon.name = "trash";
 
-          trashButton.appendChild(trashIcon);
-          cartBox.appendChild(trashButton);
+            trashButton.appendChild(trashIcon);
+            cartBox.appendChild(trashButton);
 
-          cartContent.appendChild(cartBox);
-        });
-
-        const removeItemButtons = document.getElementsByClassName("cart-trash");
-        for (let index = 0; index < removeItemButtons.length; index++) {
-          const button = removeItemButtons[index];
-          button.addEventListener("click", function (event) {
-            removeItem(event, cart);
+            cartContent.appendChild(cartBox);
           });
-        }
+          const removeItemButtons =
+            document.getElementsByClassName("cart-trash");
+          for (let index = 0; index < removeItemButtons.length; index++) {
+            const button = removeItemButtons[index];
+            button.addEventListener("click", function (event) {
+              removeItem(event, cart);
+            });
+          }
 
-        const quantityInputs = document.getElementsByClassName("cart-quantity");
-        for (let i = 0; i < quantityInputs.length; i++) {
-          const input = quantityInputs[i];
-          input.addEventListener("change", quantityChanged);
+          const quantityInputs =
+            document.getElementsByClassName("cart-quantity");
+          for (let i = 0; i < quantityInputs.length; i++) {
+            const input = quantityInputs[i];
+            input.addEventListener("change", function (event) {
+              quantityChanged(event, cart);
+            });
+          }
+
+          if (cartContent.contains(emptyCartText)) {
+            cartContent.removeChild(emptyCartText);
+          }
+
+          updateTotal();
+          renderCartLength();
         }
-        renderCartLength();
       }
 
       function renderCartLength() {
         const cartLengthText = document.getElementById("cart-length");
         const cartLength = document.getElementsByClassName("cart-box").length;
-        // Add the animation class
+
         cartLengthText.classList.add("cart-length-animation");
 
-        // Remove the animation class after a short delay
         setTimeout(() => {
           cartLengthText.classList.remove("cart-length-animation");
-        }, 400); // Adjust the duration to match the CSS transition duration
+        }, 400);
 
         cartLengthText.textContent = `(${cartLength})`;
       }
@@ -229,10 +245,17 @@ document.addEventListener("DOMContentLoaded", function () {
         cart.splice(index, 1);
         sessionStorage.setItem("cart", JSON.stringify(cart));
         renderCart(cart);
-        updateTotal();
       }
 
-      function quantityChanged(event) {
+      function quantityChanged(event, cart) {
+        const selected = event.target.parentElement;
+        const name =
+          selected.getElementsByClassName("cart-product-title")[0].innerHTML;
+        const product = cart.find((item) => item.name === name);
+        if (product) {
+          product.quantity = parseInt(event.target.value);
+        }
+        sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTotal();
       }
     });
@@ -241,16 +264,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const cartContent = document.getElementsByClassName("cart-content")[0];
     const cartBoxes = cartContent.getElementsByClassName("cart-box");
     let total = 0;
-    for (let i = 0; i < cartBoxes.length; i++) {
-      const cartBox = cartBoxes[i];
-      const priceElement =
-        cartBox.getElementsByClassName("cart-product-price")[0];
-      const quantityElement =
-        cartBox.getElementsByClassName("cart-quantity")[0];
-      const price = parseFloat(priceElement.innerText.replace("₱", ""));
-      const quantity = quantityElement.value;
-      total = Number(total) + Number(price) * Number(quantity);
-      document.getElementsByClassName("total-price")[0].innerText = "₱" + total;
+
+    if (cartBoxes.length === 0) {
+      total = 0;
+    } else {
+      for (let i = 0; i < cartBoxes.length; i++) {
+        const cartBox = cartBoxes[i];
+        const priceElement =
+          cartBox.getElementsByClassName("cart-product-price")[0];
+        const quantityElement =
+          cartBox.getElementsByClassName("cart-quantity")[0];
+        const price = parseFloat(priceElement.innerText.replace("₱", ""));
+        const quantity = quantityElement.value;
+        total = Number(total) + Number(price) * Number(quantity);
+      }
     }
+
+    document.getElementsByClassName("total-price")[0].innerText = "₱" + total;
   }
 });
