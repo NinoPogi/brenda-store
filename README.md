@@ -1,3 +1,16 @@
+# Brenda Store
+
+Brenda Store is an e-commerce website for selling various products.
+
+## Features
+
+- Hero Page
+- Shop Page
+- About Page
+- Browse products
+- Add products to the shopping cart
+- Manage quantities and remove items from the cart
+
 ## Installation
 
 To run the Brenda Store project locally, follow the steps below:
@@ -56,3 +69,12 @@ To run the Brenda Store project locally, follow the steps below:
 11. Open your web browser and visit `http://localhost:5173` to access the Brenda Store website.
 
 Now you should be able to run the Brenda Store project locally on your machine. If you encounter any issues, make sure all the dependencies are properly installed and configured.
+
+## Author
+
+The Brenda Store project is developed by: 
+
+Kiel Andrea Basco
+Niño Immanoel Bautista
+
+If you have any questions or suggestions, please feel free to reach out.
