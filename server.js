@@ -40,8 +40,6 @@ app.get("/products", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
 
-    console.log(`connected as id ${connection.threadId}`);
-
     connection.query("SELECT * from Products", (err, rows) => {
       connection.release();
 
@@ -57,8 +55,6 @@ app.get("/products", (req, res) => {
 app.get("/featured", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err;
-
-    console.log(`connected as id ${connection.threadId}`);
 
     connection.query("SELECT * from Featured", (err, rows) => {
       connection.release();
