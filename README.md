@@ -1,5 +1,3 @@
-Certainly! Here's the updated installation section with instructions for creating the `.env` file:
-
 ## Installation
 
 To run the Brenda Store project locally, follow the steps below:
