@@ -21,31 +21,32 @@ To run the Brenda Store project locally, follow the steps below:
 
 3. Start the WAMP server and ensure that the Apache and MySQL services are running.
 
-4. Navigate to the project directory:
+4. Import the database:
+
+   - Open your preferred MySQL administration tool (e.g., phpMyAdmin).
+   - Create a new database named `brenda_store`.
+   - Import the `brenda-store.sql` file located in the project's root directory into the `brenda_store` database. This file contains the necessary database structure and sample data.
+
+
+5. Navigate to the project directory:
 
    ```bash
    cd brenda-store
    ```
 
-5. Create an `.env` file in the project's root directory. You can use a text editor to create this file.
+6. Change the `.env` file in the project's root directory. You can use a text editor to change this file.
 
-6. Add the following content to the `.env` file:
+7. Edit the following content to the `.env` file:
 
    ```plaintext
    MYSQL_HOST="localhost"
-   MYSQL_PORT="8889"  # Update this if your MySQL server is running on a different port
+   MYSQL_PORT="3306" 
    MYSQL_USER="root"
-   MYSQL_PASSWORD="root"
+   MYSQL_PASSWORD=""
    MYSQL_DB="brenda_store"
    ```
 
    Make sure to update the values accordingly based on your local MySQL server configuration.
-
-7. Import the database:
-
-   - Open your preferred MySQL administration tool (e.g., phpMyAdmin).
-   - Create a new database named `brenda_store`.
-   - Import the `brenda-store.sql` file located in the project's root directory into the `brenda_store` database. This file contains the necessary database structure and sample data.
 
 8. Install the project dependencies using npm:
 
