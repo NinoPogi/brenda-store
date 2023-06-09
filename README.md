@@ -42,7 +42,6 @@ To run the Brenda Store project locally, follow the steps below:
    MYSQL_HOST="localhost"
    MYSQL_PORT="3306" 
    MYSQL_USER="root"
-   MYSQL_PASSWORD=""
    MYSQL_DB="brenda_store"
    ```
 
