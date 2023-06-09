@@ -68,13 +68,13 @@ To run the Brenda Store project locally, follow the steps below:
 
 11. Open your web browser and visit `http://localhost:5173` to access the Brenda Store website.
 
-Optional: If you are using Visual Studio Code, you can enhance your development experience by installing the Live Server extension by Ritwick Dey. Live Server allows you to see the changes you make to your HTML, CSS, and JavaScript code instantly without manually refreshing the browser.
+**Optional:** If you are using Visual Studio Code, you can enhance your development experience by installing the Live Server extension by Ritwick Dey. Live Server allows you to see the changes you make to your HTML, CSS, and JavaScript code instantly without manually refreshing the browser.
 
 To install Live Server in Visual Studio Code, follow these steps:
 
 Open Visual Studio Code.
 
-Go to the Extensions view by clicking on the square icon in the left sidebar or by pressing Ctrl+Shift+X (Windows/Linux) or Cmd+Shift+X (Mac).
+Go to the Extensions view by clicking on the square icon in the left sidebar or by pressing **Ctrl+Shift+X** (Windows/Linux) or **Cmd+Shift+X** (Mac).
 
 Search for "Live Server" in the Extensions view search bar.
 
